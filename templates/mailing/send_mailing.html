@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Запуск рассылки - Сервис рассылок{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-play-circle"></i> Запуск рассылки
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if message %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> {{ message }}
+                    </div>
+                {% endif %}
+
+                <div class="mb-4">
+                    <h5>Информация о рассылке:</h5>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>ID рассылки:</th>
+                            <td>#{{ object.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Тема сообщения:</th>
+                            <td>{{ object.message.subject }}</td>
+                        </tr>
+                        <tr>
+                            <th>Количество клиентов:</th>
+                            <td>{{ object.clients.count }}</td>
+                        </tr>
+                        <tr>
+                            <th>Статус:</th>
+                            <td>
+                                <span class="badge 
+                                    {% if object.status == 'created' %}bg-secondary
+                                    {% elif object.status == 'started' %}bg-success
+                                    {% elif object.status == 'completed' %}bg-info
+                                    {% endif %}">
+                                    {{ object.get_status_display }}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    При запуске рассылки сообщения будут отправлены всем выбранным клиентам. 
+                    Процесс отправки может занять некоторое время в зависимости от количества клиентов.
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-play"></i> Запустить рассылку сейчас
+                        </button>
+                        <a href="{% url 'mailing:mailing_detail' object.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Назад к деталям
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
