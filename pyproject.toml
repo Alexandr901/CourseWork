@@ -1,16 +1,41 @@
-[project]
+[tool.poetry]
 name = "coursework"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "Александр Кокарев",email = "kokarev17@gmail.com"}
-]
+description = "Сервис управления рассылками"
+authors = ["Александр Кокарев <kokarev17@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-]
+packages = [{include = "coursework"}]
 
+[tool.poetry.dependencies]
+python = ">=3.13"
+Django = "5.2.7"
+psycopg2-binary = "2.9.11"
+celery = "5.5.3"
+redis = "7.0.0"
+django-crispy-forms = "2.4"
+crispy-bootstrap5 = "2025.6"
+django-redis = "6.0.0"
+python-dotenv = "1.2.1"
+pillow = "12.0.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "25.9.0"
+flake8 = "7.3.0"
+isort = "7.0.0"
+mypy-extensions = "1.1.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "*"
+pytest-django = "*"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py313']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3

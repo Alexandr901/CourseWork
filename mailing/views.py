@@ -4,8 +4,14 @@ from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 
 from .forms import ClientForm, MailingForm, MessageForm
 from .models import Client, Mailing, MailingAttempt, Message

@@ -57,7 +57,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # Эта строка важна!
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -97,6 +97,74 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "logs/django.log",
+            "formatter": "verbose",
+        },
+        "file_errors": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "logs/errors.log",
+            "formatter": "verbose",
+        },
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["file_errors", "mail_admins"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "mailing_app": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "users": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "celery": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
+
+LOG_DIR = BASE_DIR / "logs"
+LOG_DIR.mkdir(exist_ok=True)
 
 LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = "Europe/Moscow"

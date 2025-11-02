@@ -1,11 +1,23 @@
 from django.urls import path
 
-from .views import (ClientCreateView, ClientDeleteView, ClientListView,
-                    ClientUpdateView, HomeView, MailingAttemptListView,
-                    MailingCreateView, MailingDeleteView, MailingDetailView,
-                    MailingListView, MailingUpdateView, MessageCreateView,
-                    MessageDeleteView, MessageListView, MessageUpdateView,
-                    SendMailingView)
+from .views import (
+    ClientCreateView,
+    ClientDeleteView,
+    ClientListView,
+    ClientUpdateView,
+    HomeView,
+    MailingAttemptListView,
+    MailingCreateView,
+    MailingDeleteView,
+    MailingDetailView,
+    MailingListView,
+    MailingUpdateView,
+    MessageCreateView,
+    MessageDeleteView,
+    MessageListView,
+    MessageUpdateView,
+    SendMailingView,
+)
 
 app_name = "mailing"
 
