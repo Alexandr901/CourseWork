@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Детали рассылки #{{ object.id }} - Сервис рассылок{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="fas fa-paper-plane"></i> Рассылка #{{ object.id }}</h1>
+            <div class="btn-group">
+                <a href="{% url 'mailing:mailing_update' object.pk %}" class="btn btn-outline-primary">
+                    <i class="fas fa-edit"></i> Редактировать
+                </a>
+                <a href="{% url 'mailing:mailing_send' object.pk %}" class="btn btn-outline-success">
+                    <i class="fas fa-play"></i> Запустить
+                </a>
+                <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-outline-danger">
+                    <i class="fas fa-trash"></i> Удалить
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Основная информация</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th>Статус:</th>
+                        <td>
+                            <span class="badge 
+                                {% if object.status == 'created' %}bg-secondary
+                                {% elif object.status == 'started' %}bg-success
+                                {% elif object.status == 'completed' %}bg-info
+                                {% endif %}">
+                                {{ object.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Время начала:</th>
+                        <td>{{ object.start_time|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Время окончания:</th>
+                        <td>{{ object.end_time|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Сообщение:</th>
+                        <td>{{ object.message.subject }}</td>
+                    </tr>
+                    <tr>
+                        <th>Количество клиентов:</th>
+                        <td>{{ object.clients.count }}</td>
+                    </tr>
+                    <tr>
+                        <th>Создана:</th>
+                        <td>{{ object.created_at|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Содержание сообщения</h5>
+            </div>
+            <div class="card-body">
+                <h6>{{ object.message.subject }}</h6>
+                <p class="mt-3">{{ object.message.body|linebreaks }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Клиенты рассылки</h5>
+            </div>
+            <div class="card-body">
+                {% if object.clients.all %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Ф.И.О.</th>
+                                    <th>Комментарий</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for client in object.clients.all %}
+                                <tr>
+                                    <td>{{ client.email }}</td>
+                                    <td>{{ client.full_name }}</td>
+                                    <td>{{ client.comment|default:"-" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">К этой рассылке не привязаны клиенты.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
